@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   HashRouter as Router,
   Route,
@@ -11,22 +11,22 @@ export default class AppRouter extends React.Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
-    const { routes } = this.props
+    const { routes } = this.props;
     return (
       <Router>
         <Switch>
           {routes.map(this.creatRoute)}
         </Switch>
       </Router>
-    )
+    );
   }
 
   creatRoute = (routeConfig, i) => {
-    const { key = i, path, exact, component: Comp, params } = routeConfig
+    const { key = i, path, exact, component: Comp, params } = routeConfig;
     return (
       <Route
         key={key}
@@ -34,7 +34,7 @@ export default class AppRouter extends React.Component {
         path={path}
         render={props => <Comp {...props} params={params} />}
       />
-    )
+    );
   }
 
 }

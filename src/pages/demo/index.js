@@ -1,26 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { Button } from 'antd';
 
-import { Router, AsyncImport } from '../../components'
+export default class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
 
-export default {
-  path: '/demo',
-  component: () => <Router routes={[
-    {
-      exact: true,
-      path: '/demo/',
-      params: { config: 'home' },
-      component: AsyncImport(() => import('./demo-page')),
-    },
-    {
-      path: '/demo/1',
-      params: { config: '1' },
-      component: AsyncImport(() => import('./demo-page')),
-    },
-    {
-      path: '/demo/2',
-      params: { config: '2' },
-      component: AsyncImport(() => import('./demo-page')),
-    },
-  ]} />,
-  params: { from: 'demo' },
-}
+  render() {
+    const { params: { config }, history } = this.props
+    return (
+      <div>
+        <p>demo - {config}</p>
+        <hr />
+        <Button onClick={() => {
+          history.goBack()
+        }}>back</Button>
+      </div>
+    )
+  }
+
+} // class Page end

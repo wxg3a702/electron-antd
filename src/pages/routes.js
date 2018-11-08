@@ -1,12 +1,13 @@
 
-import React from 'react'
-import { AsyncImport } from '../components'
+import { AsyncImport } from '../components';
 
-import demo from './demo'
+import workbench from './workbench/config';
+import scaffold from './scaffold/config';
 
 const routes = [
-  { path: '/', exact: true, component: AsyncImport(() => import('./home')), params: { test: 'ok' } },
-  demo
+  { path: '/', exact: true, component: AsyncImport(() => import('./home/index.js')), params: { test: 'ok' } },
+  workbench,
+  scaffold
 ]
 
 

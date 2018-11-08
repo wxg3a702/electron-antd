@@ -1,5 +1,5 @@
 const path = require('path')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const { port } = require('../config/dev.config')
 
 const { NODE_ENV } = process.env
@@ -19,15 +19,24 @@ if (NODE_ENV === 'development') {
       console.log('Unable to install `react-developer-tools`: \n', err)
     })
   })
+  
 } else {
   winURL = `file://${path.join(__dirname, '../dist/index.html')}`
 }
 
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 })
+  mainWindow = new BrowserWindow({ 
+    width: 800, 
+    height: 600,
+    // frame: false
+  })
 
   mainWindow.loadURL(winURL)
+
+  if (NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -51,3 +60,7 @@ app.on('activate', function () {
   }
 })
 
+ipcMain.on('test', (event, person) => {
+
+  console.log('creating', person);  
+});
