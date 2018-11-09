@@ -1,0 +1,38 @@
+@import '../../../styles/index.less';
+
+.umi-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &-title {
+        margin-left: -125px;
+        margin-bottom: 20px;
+    
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    &-ant-form-item-label label {
+        color: @color_text;
+    }
+
+    &-footer {
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        width: calc(100% - 200px);
+
+        &-next-button {
+            float: right;
+            margin: 0 10px;
+        }
+    }
+
+    &-input {
+        width: 300px;
+    }
+    
+}

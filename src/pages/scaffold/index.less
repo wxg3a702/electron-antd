@@ -1,15 +1,33 @@
 @import '../../styles/index.less';
 
-.sider {
-    height: 100vh;
-    background-color: @sider_color_background;
-}
+.scaffold {
 
-.content {
-    background-color: @content_color_background;
-}
+    &-sider {
+        height: 100vh;
+        background-color: @sider_color_background;
 
-.marginStyle {
-    margin: 5px;
-    color: @color_text;
+        &-umi-button {
+            margin: 10px;
+        }
+    
+        &-back-button {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+    }
+
+    &-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: @content_color_background;
+    }
+    
+    &-marginStyle {
+        margin: 5px;
+        color: @color_text;
+    }
 }
