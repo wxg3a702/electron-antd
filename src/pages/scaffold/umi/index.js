@@ -68,13 +68,11 @@ class UmiPage extends React.Component {
                 {getFieldDecorator('projectPath', {
                     rules: [{ required: true, message: '请选择项目地址' }],
                 })(
-                    <div>
-                        <Input 
-                            className="umi-form-input" 
-                            placeholder="项目地址" 
-                        />
-                        <div style={{ cursor: 'pointer' }} onClick={this.openPath}><Icon type="folder-open" /></div>
-                    </div>
+                    <Input 
+                        className="ant-input" 
+                        placeholder="项目地址" 
+                        addonAfter={<div style={{ cursor: 'pointer' }} onClick={this.openPath}><Icon type="folder-open" /></div>}
+                    />
                 )}
               </FormItem>
             </Form>
