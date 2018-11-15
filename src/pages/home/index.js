@@ -19,10 +19,11 @@ export default class Home extends React.Component {
   };
 
   render() {
+    const templates = ["ttttt1", "ttttt12"];
     return (
       <Layout>
         <Content className="flex column center content">
-          <TemplatesList />
+          <TemplatesList data={templates} {...this.props}/>
           <div className="flex">
             <Button className="marginStyle" type="primary" onClick={this.openProject}>打开项目</Button>
             <Button className="marginStyle" type="primary" onClick={this.createProject}>创建项目</Button>

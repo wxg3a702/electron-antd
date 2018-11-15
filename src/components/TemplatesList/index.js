@@ -3,17 +3,21 @@ import TemplatesItem from './templatesItem';
 import './index.less';
 
 export default class TemplatesList extends React.Component {
+    constructor(props) {
+        super(props);
+    }    
 
-    renderTemplatesList = () => {
-        return ["title1", "title2"].map((item, index) => {
-            return <TemplatesItem title={item} key={`${item}${index}`}/>;
+    renderTemplatesList = (templates) => {
+        return templates.map((item, index) => {
+            return <TemplatesItem {...this.props} title={item} key={`${item}${index}`}/>;
         })
     };
 
     render() {
+        const  { data } = this.props;
         return (
             <div className="templates-list-container">
-                {this.renderTemplatesList()}
+                {this.renderTemplatesList(data)}
             </div>
         )
     }

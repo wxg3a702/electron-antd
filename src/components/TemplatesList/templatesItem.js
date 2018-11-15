@@ -3,9 +3,14 @@ import { Button } from 'antd';
 import './templatesItem.less';
 
 export default class TemplatesItem extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     
     createProject = (scaffold) => {
+        // TODO: 脚手架模板选择与创建
         console.log('根据脚手架创建项目');
+        this.props.history.push('./workbench')
     };
 
     render() {
