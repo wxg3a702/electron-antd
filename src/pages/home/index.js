@@ -1,9 +1,11 @@
 import React from 'react';
+import electron from 'electron';
 import { Button, Layout } from 'antd';
 import './index.less'
 import TemplatesList from '../../components/TemplatesList';
 const { Sider, Content } = Layout;
-const ipc = require('electron').ipcRenderer;
+const { dialog } = electron.remote;
+const ipc = electron.ipcRenderer;
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -16,6 +18,17 @@ export default class Home extends React.Component {
 
   openProject = () => {
     ipc.send('test', 'hahaha');
+    dialog.showOpenDialog({
+        properties: ['openDirectory'], 
+        filters: [
+            { name: 'PDMan' },
+        ],
+    }, (file) => {
+        if (file) {
+            console.log(file);
+            this.props.history.push('./workbench');
+        }
+    });
   };
 
   render() {

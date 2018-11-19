@@ -1,16 +1,123 @@
 import React from 'react';
-import { Button } from 'antd';
+import electron from 'electron';
+import { Modal, Form, Input, Button, Icon } from 'antd';
 import './templatesItem.less';
+const { dialog, app } = electron.remote;
+const FormItem = Form.Item;
+
+class From extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            projectPath: '',
+            projectName: ''
+        };
+    }
+
+    componentDidMount() {
+        this.props.form.setFieldsValue({
+            projectPath: app.getPath('home'),
+            projectName: ''
+        });
+    };
+
+    openPath = () => {
+        dialog.showOpenDialog({
+            properties: ['openDirectory'], 
+            filters: [
+                { name: 'PDMan' },
+            ],
+        }, (file) => {
+            if (file) {
+                this.props.form.setFieldsValue({
+                projectPath: file[0],
+            });
+            }
+        });
+    };  
+
+    nextStep = (e) => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+            console.log('Received values of form: ', values);
+        }
+        });
+    };
+
+    render() {
+        const { getFieldDecorator } = this.props.form;
+
+        const formItemLayout = {
+          labelCol: { span: 6 },
+          wrapperCol: { span: 16 },
+        };
+        const buttonItemLayout = {
+          wrapperCol: { span: 20, offset: 4 },
+        };
+        return (
+          <div className="modal-form">
+            <Form layout="horizontal">
+              <FormItem
+                label="项目路径"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('projectName', {
+                    rules: [{ required: true, message: '请填写项目名字' }],
+                })(
+                    <Input 
+                        className="modal-form-input" 
+                        placeholder="项目名字" 
+                    />
+                )}
+              </FormItem>
+              <FormItem
+                label="项目路径"
+                {...formItemLayout}
+              >
+                {getFieldDecorator('projectPath', {
+                    rules: [{ required: true, message: '请选择项目地址' }],
+                })(
+                    <Input 
+                        className="ant-input" 
+                        placeholder="项目地址" 
+                        addonAfter={<div style={{ cursor: 'pointer' }} onClick={this.openPath}><Icon type="folder-open" /></div>}
+                    />
+                )}
+              </FormItem>
+            </Form>
+          </div>
+        );
+    }
+}
+
+const FormModal = Form.create()(From);
 
 export default class TemplatesItem extends React.Component {
     constructor(props) {
         super(props);
+        this.state= {
+            modalVisible: false
+        }
     }
-    
+
+    onOkClick = () => {
+        this.child.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('表单数据：', values);
+                this.setState({ modalVisible: false });
+                // this.props.history.push('./workbench');
+                // TODO: 根据脚手架生成项目
+            }
+        });
+    };
+
+    onCancelClick = () => {
+        this.setState({ modalVisible: false });
+    };
+
     createProject = (scaffold) => {
-        // TODO: 脚手架模板选择与创建
-        console.log('根据脚手架创建项目');
-        this.props.history.push('./workbench')
+        this.setState({ modalVisible: true });
     };
 
     render() {
@@ -24,6 +131,17 @@ export default class TemplatesItem extends React.Component {
                     <div>{title}</div>
                     <Button type="primary" size="small" onClick={this.createProject}>创建</Button>
                 </div>
+                <Modal
+                    title="新建项目"
+                    centered
+                    visible={this.state.modalVisible}
+                    okText="确认"
+                    cancelText="取消"
+                    onOk={this.onOkClick}
+                    onCancel={this.onCancelClick}
+                    >
+                    <FormModal ref={r => this.child = r}/>
+                </Modal>
             </div>
         )
     }
