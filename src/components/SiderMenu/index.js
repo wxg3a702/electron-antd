@@ -25,10 +25,10 @@ export default class SideMenu extends React.Component {
         return (
             <ul className="idedemo-sidemenu">
                 <li className="idedemo-sidemenu-items">
-                    <a onClick={() => this.onClick('project')}>项目</a>
+                    <a onClick={() => this.onClick('project')}><i className="iconfont icon-xiangmu idedemo-sidemenu-iconfont" />项目</a>
                 </li>
                 <li className="idedemo-sidemenu-items">
-                    <a onClick={() => this.onClick('scaffold')}>模板</a>
+                    <a onClick={() => this.onClick('scaffold')}><i className="iconfont icon-mmoban idedemo-sidemenu-iconfont" />模板</a>
                 </li>
             </ul>
         );

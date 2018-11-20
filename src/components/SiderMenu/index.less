@@ -4,26 +4,32 @@
     padding-top: 35px;
     background-color: @sider_color_background;
 
-    &-items a{
+    &-iconfont {
+        font-size: 28px;
+    }
+
+    &-items a {
         text-align: center;
         cursor: pointer;
         padding: 10px;
         color: rgba(255,255,255,.7);
         position: relative;
-        width：48px
+        width: 48px;
+        text-decoration: none;
 
         &-tip {
             color: rgba(255,255,255,.7);
         }
     }
 
-    
-    &-items a:active {
-        color: #fff;
-    }
-
     &-items a:hover {
         color: #fff;
+        text-decoration: none;
+    }
+    
+    &-items a:active{
+        color: #fff;
+        text-decoration: none;
     }
 
 }
