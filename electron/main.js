@@ -19,15 +19,15 @@ if (NODE_ENV === 'development') {
       console.log('Unable to install `react-developer-tools`: \n', err)
     })
   })
-  
+
 } else {
   winURL = `file://${path.join(__dirname, '../dist/index.html')}`
 }
 
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ 
-    width: 800, 
+  mainWindow = new BrowserWindow({
+    width: 800,
     height: 600,
     // frame: false
   })
@@ -62,5 +62,5 @@ app.on('activate', function () {
 
 ipcMain.on('test', (event, person) => {
 
-  console.log('creating', person);  
+  console.log('creating', person);
 });

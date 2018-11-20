@@ -46,8 +46,8 @@ export default class Page extends React.Component {
             options={options}
             onChange={this.onChange}
             editorDidMount={this.editorDidMount}
-          />  
-          <Button onClick={() => {history.goBack()}}>返回</Button>
+          />
+          <Button onClick={() => { history.goBack() }}>返回</Button>
         </Content>
       </Layout>
     );

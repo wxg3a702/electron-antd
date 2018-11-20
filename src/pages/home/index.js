@@ -3,6 +3,7 @@ import electron from 'electron';
 import { Button, Layout } from 'antd';
 import './index.less'
 import TemplatesList from '../../components/TemplatesList';
+import NodeFs from '../../node/fs';
 const { Sider, Content } = Layout;
 const { dialog } = electron.remote;
 const ipc = electron.ipcRenderer;
@@ -19,15 +20,15 @@ export default class Home extends React.Component {
   openProject = () => {
     ipc.send('test', 'hahaha');
     dialog.showOpenDialog({
-        properties: ['openDirectory'], 
-        filters: [
-            { name: 'PDMan' },
-        ],
+      properties: ['openFile', 'openDirectory'],
     }, (file) => {
-        if (file) {
-            console.log(file);
-            this.props.history.push('./workbench');
-        }
+      if (file) {
+        // 读取项目，跳转至工作区
+        NodeFs.getFilesByDirPromise(file[0]).then(data => {
+          console.log(data);
+        });
+        // this.props.history.push('./workbench');
+      }
     });
   };
 
@@ -36,7 +37,7 @@ export default class Home extends React.Component {
     return (
       <Layout>
         <Content className="flex column center content">
-          <TemplatesList data={templates} {...this.props}/>
+          <TemplatesList data={templates} {...this.props} />
           <div className="flex">
             <Button className="marginStyle" type="primary" onClick={this.openProject}>打开项目</Button>
             <Button className="marginStyle" type="primary" onClick={this.createProject}>创建项目</Button>

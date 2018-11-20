@@ -2,6 +2,7 @@ import React from 'react';
 import electron from 'electron';
 import { Modal, Form, Input, Button, Icon } from 'antd';
 import './templatesItem.less';
+import NodeFs from '../../node/fs';
 const { dialog, app } = electron.remote;
 const FormItem = Form.Item;
 
@@ -23,25 +24,16 @@ class From extends React.Component {
 
     openPath = () => {
         dialog.showOpenDialog({
-            properties: ['openDirectory'], 
+            properties: ['openDirectory'],
             filters: [
                 { name: 'PDMan' },
             ],
         }, (file) => {
             if (file) {
                 this.props.form.setFieldsValue({
-                projectPath: file[0],
-            });
+                    projectPath: file[0],
+                });
             }
-        });
-    };  
-
-    nextStep = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-            console.log('Received values of form: ', values);
-        }
         });
     };
 
@@ -49,54 +41,53 @@ class From extends React.Component {
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
-          labelCol: { span: 6 },
-          wrapperCol: { span: 16 },
+            labelCol: { span: 6 },
+            wrapperCol: { span: 16 },
         };
         const buttonItemLayout = {
-          wrapperCol: { span: 20, offset: 4 },
+            wrapperCol: { span: 20, offset: 4 },
         };
         return (
-          <div className="modal-form">
-            <Form layout="horizontal">
-              <FormItem
-                label="项目路径"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('projectName', {
-                    rules: [{ required: true, message: '请填写项目名字' }],
-                })(
-                    <Input 
-                        className="modal-form-input" 
-                        placeholder="项目名字" 
-                    />
-                )}
-              </FormItem>
-              <FormItem
-                label="项目路径"
-                {...formItemLayout}
-              >
-                {getFieldDecorator('projectPath', {
-                    rules: [{ required: true, message: '请选择项目地址' }],
-                })(
-                    <Input 
-                        className="ant-input" 
-                        placeholder="项目地址" 
-                        addonAfter={<div style={{ cursor: 'pointer' }} onClick={this.openPath}><Icon type="folder-open" /></div>}
-                    />
-                )}
-              </FormItem>
-            </Form>
-          </div>
+            <div className="modal-form">
+                <Form layout="horizontal">
+                    <FormItem
+                        label="项目路径"
+                        {...formItemLayout}
+                    >
+                        {getFieldDecorator('projectName', {
+                            rules: [{ required: true, message: '请填写项目名字' }],
+                        })(
+                            <Input
+                                className="modal-form-input"
+                                placeholder="项目名字"
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="项目路径"
+                        {...formItemLayout}
+                    >
+                        {getFieldDecorator('projectPath', {
+                            rules: [{ required: true, message: '请选择项目地址' }],
+                        })(
+                            <Input
+                                className="ant-input"
+                                placeholder="项目地址"
+                                addonAfter={<div style={{ cursor: 'pointer' }} onClick={this.openPath}><Icon type="folder-open" /></div>}
+                            />
+                        )}
+                    </FormItem>
+                </Form>
+            </div>
         );
     }
 }
-
 const FormModal = Form.create()(From);
 
 export default class TemplatesItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
             modalVisible: false
         }
     }
@@ -104,10 +95,15 @@ export default class TemplatesItem extends React.Component {
     onOkClick = () => {
         this.child.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('表单数据：', values);
                 this.setState({ modalVisible: false });
-                // this.props.history.push('./workbench');
                 // TODO: 根据脚手架生成项目
+                const targetDir = `${values.projectPath}/${values.projectName}`;
+                if (!NodeFs.fileExists(targetDir)) {
+                    NodeFs.copyDir('src/templates/umi/app', targetDir);
+                    // this.props.history.push('./workbench');
+                } else {
+                    dialog.showErrorBox('创建项目失败！', '该项目已经存在了');
+                }
             }
         });
     };
@@ -124,8 +120,8 @@ export default class TemplatesItem extends React.Component {
         const { title, desc } = this.props;
         return (
             <div className="templates-item-container">
-                <img 
-                    className="templates-item-container-image" 
+                <img
+                    className="templates-item-container-image"
                     src={"https://img.alicdn.com/tfs/TB1d1QqXwHqK1RjSZFEXXcGMXXa-2840-1596.png"} />
                 <div className="templates-item-container-title">
                     <div>{title}</div>
@@ -139,8 +135,8 @@ export default class TemplatesItem extends React.Component {
                     cancelText="取消"
                     onOk={this.onOkClick}
                     onCancel={this.onCancelClick}
-                    >
-                    <FormModal ref={r => this.child = r}/>
+                >
+                    <FormModal ref={r => this.child = r} />
                 </Modal>
             </div>
         )
