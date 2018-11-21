@@ -33,7 +33,7 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const templates = ["ttttt1", "ttttt12"];
+    const templates = ["UMI", "UMI"];
     return (
       <Layout>
         <Content className="flex column center content">

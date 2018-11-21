@@ -4,6 +4,9 @@ import './index.less';
 export default class SideMenu extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            type: 'project'
+        }
     }
     
     onClick = (type) => {
@@ -19,16 +22,19 @@ export default class SideMenu extends React.Component {
                 break;
         }
         location.href = currentHref;
+        this.setState({
+            type
+        })
     };
 
     render() { 
         return (
             <ul className="idedemo-sidemenu">
-                <li className="idedemo-sidemenu-items">
-                    <a onClick={() => this.onClick('project')}><i className="iconfont icon-xiangmu idedemo-sidemenu-iconfont" />项目</a>
+                <li>
+                    <a className={this.state.type === 'project' ? 'idedemo-sidemenu selected' : 'idedemo-sidemenu li a'} onClick={() => this.onClick('project')}><i className="iconfont icon-xiangmu idedemo-sidemenu-iconfont" />项目</a>
                 </li>
-                <li className="idedemo-sidemenu-items">
-                    <a onClick={() => this.onClick('scaffold')}><i className="iconfont icon-mmoban idedemo-sidemenu-iconfont" />模板</a>
+                <li>
+                    <a className={this.state.type === 'scaffold' ? 'idedemo-sidemenu selected' : 'idedemo-sidemenu li a'} onClick={() => this.onClick('scaffold')}><i className="iconfont icon-mmoban idedemo-sidemenu-iconfont" />模板</a>
                 </li>
             </ul>
         );
