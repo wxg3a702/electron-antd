@@ -97,9 +97,10 @@ export default class TemplatesItem extends React.Component {
             if (!err) {
                 this.setState({ modalVisible: false });
                 // TODO: 根据脚手架生成项目
-                const targetDir = `${values.projectPath}/${values.projectName}`;
+                const targetDir = `${values.projectPath}\\${values.projectName}`;
                 if (!NodeFs.fileExists(targetDir)) {
-                    NodeFs.copyDir('src/templates/umi/app', targetDir);
+                    NodeFs.copyDir('src/templates/create-react-app', targetDir);
+                    NodeFs.getFilesByDirSync(targetDir);
                     // this.props.history.push('./workbench');
                 } else {
                     dialog.showErrorBox('创建项目失败！', '该项目已经存在了');

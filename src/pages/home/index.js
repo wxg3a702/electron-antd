@@ -24,16 +24,14 @@ export default class Home extends React.Component {
     }, (file) => {
       if (file) {
         // 读取项目，跳转至工作区
-        NodeFs.getFilesByDirPromise(file[0]).then(data => {
-          console.log(data);
-        });
+        NodeFs.getFilesByDirSync(file[0]);
         // this.props.history.push('./workbench');
       }
     });
   };
 
   render() {
-    const templates = ["UMI", "UMI"];
+    const templates = ["create-react-app", "create-react-app"];
     return (
       <Layout>
         <Content className="flex column center content">

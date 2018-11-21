@@ -115,7 +115,16 @@ function getFilesByDirPromise(dirPath) {
  */
 function getFilesByDirSync(dirPath) {
   try {
-    return fs.readdirSync(dirPath);
+	const dir = fs.readdirSync(dirPath);
+    dir.forEach(file => {
+      const currentPath = path.join(dirPath, file);
+	  const current = fs.statSync(currentPath);
+      if (current.isDirectory()) {
+          getFilesByDirSync(currentPath);
+      } else {
+		  console.log(currentPath);
+      }
+	})
   } catch (err) {
     throw err;
   }

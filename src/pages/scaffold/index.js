@@ -13,7 +13,7 @@ export default class Page extends React.Component {
 
   render() {
     const { history } = this.props;
-    const templates = ["UMI", "UMI"];
+    const templates = ["create-react-app", "create-react-app"];
     return (
       <Layout className="scaffold">
         <Content className="scaffold-content">
