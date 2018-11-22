@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tree, Icon  } from 'antd';
 import TreeTest from './treeTest.json';
+import './index.less';
 const DirectoryTree = Tree.DirectoryTree;
 const TreeNode = Tree.TreeNode;
 
