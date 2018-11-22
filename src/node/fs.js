@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import FileTree from '../components/FileTree';
 
 /**
  * 判断目录或文件是否存在
@@ -113,23 +114,84 @@ function getFilesByDirPromise(dirPath) {
  * @param dirPath 目录
  * @returns undefined
  */
-function getFilesByDirSync(dirPath) {
-  try {
-	const dir = fs.readdirSync(dirPath);
-    dir.forEach(file => {
-      const currentPath = path.join(dirPath, file);
-	  const current = fs.statSync(currentPath);
-      if (current.isDirectory()) {
-          getFilesByDirSync(currentPath);
-      } else {
-		  console.log(currentPath);
+function fileDisplay(filePath){
+  fs.readdir(filePath,function(err,files){
+      if(err){
+          console.warn(err)
+      }else{
+          files.forEach(function(filename){
+              var filedir = path.join(filePath,filename);
+              fs.stat(filedir,function(eror,stats){
+                  if(eror){
+                      console.warn('获取文件stats失败');
+                  }else{
+                      var isFile = stats.isFile();
+                      var isDir = stats.isDirectory();
+                      if(isFile){
+                          console.log(filedir);
+                      }
+                      if(isDir){
+                          fileDisplay(filedir);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+                      }
+                  }
+              })
+          });
       }
-	})
-  } catch (err) {
-    throw err;
-  }
+  });
 }
 
+function geFileList(path)
+{
+   let filesList = [];
+   let targetObj = {};
+   readFile(path,filesList,targetObj);
+   return filesList;
+}
+
+
+function readFile(path,filesList,targetObj)
+{
+  const files = fs.readdirSync(path);//需要用到同步读取
+   files.forEach(walk);
+   function walk(file){  
+    const states = fs.statSync(path+'/'+file);         
+        if(states.isDirectory())
+        {
+            let item ;
+            if(targetObj["children"])
+            {
+                item = {name:file,children:[]};
+                targetObj["children"].push(item);
+            }
+            else
+            {
+               item = {name:file,children:[]};
+               filesList.push(item);
+            }
+
+            readFile(path+'/'+file,filesList,item);
+        }
+        else
+        {   
+            //创建一个对象保存信息
+            let obj = new Object();
+            obj.size = states.size;//文件大小，以字节为单位
+            obj.name = file;//文件名
+            obj.path = path+'/'+file; //文件绝对路径
+
+            if(targetObj["children"])
+            {
+               const item = {name:file,value:obj.path}
+               targetObj["children"].push(item);
+            }
+            else
+            {
+                const item = {name:file,value:obj.path};
+                filesList.push(item);
+            }
+        }     
+    }
+}
 /**
  * 检查目录是否存在
  * @param dirPath 目录
@@ -199,8 +261,8 @@ export default {
   readFilePromise,
   ensureDirectoryExistence,
   getFilesByDirPromise,
-  getFilesByDirSync,
   deleteFileFromDirectory,
-  copyDir
-
+  copyDir,
+  fileDisplay,
+  geFileList
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Tree, Icon  } from 'antd';
+import TreeTest from './treeTest.json';
+const DirectoryTree = Tree.DirectoryTree;
 const TreeNode = Tree.TreeNode;
 
 export default class FileTree extends React.Component {
@@ -7,25 +9,35 @@ export default class FileTree extends React.Component {
         super(props);
     }
 
+    renderTree = (data) => {
+        let nodes;
+        if (Object.prototype.toString.call(data) == "[object Array]") {
+            nodes = data.map(item => {
+                let node = (<TreeNode title={item.name} key={item.name} isLeaf></TreeNode>)
+                if (item.children && item.children.length !== 0) {
+                    node = (
+                        <TreeNode title={item.name} key={item.name}>
+                            {this.renderTree(item.children)}
+                        </TreeNode>
+                    );
+                }
+                return node;
+            })
+        }
+        return nodes;
+    }
+
     render () {
         return (
-            <div>
-                <Tree
-                    showIcon
+            <div className="file-tree">
+                <DirectoryTree
+                    multiple
                     defaultExpandAll
-                    defaultSelectedKeys={['0-0-0']}
+                    onSelect={this.onSelect}
+                    onExpand={this.onExpand}
                 >
-                    <TreeNode icon={<Icon type="smile-o" />} title="parent 1" key="0-0">
-                    <TreeNode icon={<Icon type="meh-o" />} title="leaf" key="0-0-0" />
-                    <TreeNode
-                        icon={({ selected }) => (
-                        <Icon type={selected ? 'frown' : 'frown-o'} />
-                        )}
-                        title="leaf"
-                        key="0-0-1"
-                    />
-                    </TreeNode>
-                </Tree>
+                    {this.renderTree(TreeTest)}
+                </DirectoryTree>
             </div>
         );
     }

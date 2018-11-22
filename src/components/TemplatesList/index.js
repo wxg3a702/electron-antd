@@ -16,7 +16,7 @@ export default class TemplatesList extends React.Component {
     render() {
         const { data } = this.props;
         return (
-            <div className="templates-list-container">
+            <div className="templates-list">
                 {this.renderTemplatesList(data)}
             </div>
         )

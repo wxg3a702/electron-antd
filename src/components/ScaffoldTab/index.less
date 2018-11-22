@@ -1,0 +1,27 @@
+@import '../../styles/index.less';
+
+.scaffold-tab {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    padding: 10px;
+    background-color: #fff;
+
+    .item {
+        padding: 5px;
+        color: @color_black;
+        border-bottom: 2px solid transparent;
+    }
+
+    .item:hover {
+        color: @color_link;
+    }
+
+    .selected {
+        color: @color_link;
+        border-bottom-color: @color_link;
+        border-bottom: 2px solid;
+        transition: all 1.4s cubic-bezier(.23,1,.32,1);
+    }
+
+}
