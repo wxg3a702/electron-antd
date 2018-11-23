@@ -25,7 +25,7 @@ export default class Home extends React.Component {
       if (file) {
         // 读取项目，跳转至工作区
         // console.log(JSON.stringify(NodeFs.geFileList(file[0])));
-        this.props.history.push({pathname: './workbench', params: NodeFs.geFileList(file[0])});
+        this.props.history.push('./workbench');
       }
     });
   };
