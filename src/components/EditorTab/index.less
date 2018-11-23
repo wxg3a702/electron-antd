@@ -1,0 +1,33 @@
+@import '../../styles/index.less';
+
+.editor-tabs {
+    
+    &-tabpane {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        width: 100px;
+        height: 24px;
+
+        &-icon {
+            position: absolute;
+            width: 100px;
+            height: 24px;
+            opacity: 0;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &:hover {
+            color: @color_text;
+        }
+    }
+
+    &-selected {
+        color: @color_text
+    }
+}

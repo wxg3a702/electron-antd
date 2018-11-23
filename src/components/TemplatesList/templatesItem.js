@@ -99,6 +99,7 @@ export default class TemplatesItem extends React.Component {
                     NodeFs.copyDir('src/templates/create-react-app', targetDir);
                     NodeFs.getFilesByDirSync(targetDir);
                     // this.props.history.push('./workbench');
+                    this.props.history.push({pathname: './workbench', params: NodeFs.geFileList(targetDir)});
                 } else {
                     dialog.showErrorBox('创建项目失败！', '该项目已经存在了');
                 }

@@ -42,10 +42,10 @@ export default class ScaffoldTab extends React.Component {
 
     render() {
         const data = [
-            {name: 'type1', type: 'type1'},
-            {name: 'type2', type: 'type2'},
-            {name: 'type3', type: 'type3'},
-            {name: 'type4', type: 'type4'},
+            {name: '模板分类', type: 'type1'},
+            {name: '模板分类', type: 'type2'},
+            {name: '模板分类', type: 'type3'},
+            {name: '模板分类', type: 'type4'},
         ];
         return (
             <div className="scaffold-tab">

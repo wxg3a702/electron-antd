@@ -3,6 +3,7 @@ import { Button, Layout } from 'antd';
 import './index.less';
 import FileTree from '../../components/FileTree';
 import MonacoEditor from '../../components/MonacoEditor';
+import EditorTabs from '../../components/EditorTab';
 const { Sider, Content } = Layout;
 
 export default class Page extends React.Component {
@@ -35,10 +36,11 @@ export default class Page extends React.Component {
     return (
       <Layout className="workbench-container">
         <Sider className="workbench-container-sider">
-          <FileTree />
+          <FileTree data={this.props.location.params}/>
         </Sider>
         <Content>
-          <MonacoEditor
+          <Button onClick={() => { history.goBack() }}>返回</Button>
+          {/* <MonacoEditor
             height="450"
             width="500"
             language="javascript"
@@ -46,8 +48,8 @@ export default class Page extends React.Component {
             options={options}
             onChange={this.onChange}
             editorDidMount={this.editorDidMount}
-          />
-          <Button onClick={() => { history.goBack() }}>返回</Button>
+          /> */}
+          <EditorTabs />
         </Content>
       </Layout>
     );

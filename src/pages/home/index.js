@@ -28,8 +28,9 @@ class Home extends React.Component {
     }, (file) => {
       if (file) {
         // 读取项目，跳转至工作区
+        // E:\bosi\electron-antd
         // console.log(JSON.stringify(NodeFs.geFileList(file[0])));
-        this.props.history.push('./workbench');
+        this.props.history.push({pathname: './workbench', params: NodeFs.geFileList(file[0])});
       }
     });
   };
