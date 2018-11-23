@@ -10,15 +10,23 @@ export default class FileTree extends React.Component {
         super(props);
     }
 
-    renderTree = (data) => {
+    _onClickTreeNode = (treeNode, e) => {
+        console.log('_onClickTreeNode');
+    }
+
+    _onExpand = (a, b) => {
+        console.log('onExpand');
+    };
+
+    _renderTree = (data) => {
         let nodes;
         if (Object.prototype.toString.call(data) == "[object Array]") {
             nodes = data.map(item => {
                 let node = (<TreeNode title={item.name} key={item.name} isLeaf></TreeNode>)
                 if (item.children && item.children.length !== 0) {
                     node = (
-                        <TreeNode title={item.name} key={item.name}>
-                            {this.renderTree(item.children)}
+                        <TreeNode title={item.name} key={item.name} >
+                            {this._renderTree(item.children)}
                         </TreeNode>
                     );
                 }
@@ -29,15 +37,16 @@ export default class FileTree extends React.Component {
     }
 
     render () {
+        const { data } = this.props;
         return (
             <div className="file-tree">
                 <DirectoryTree
                     multiple
                     defaultExpandAll
-                    onSelect={this.onSelect}
-                    onExpand={this.onExpand}
+                    onSelect={this._onClickTreeNode}
+                    onExpand={this._onExpand}
                 >
-                    {this.renderTree(TreeTest)}
+                    {this._renderTree(data)}
                 </DirectoryTree>
             </div>
         );

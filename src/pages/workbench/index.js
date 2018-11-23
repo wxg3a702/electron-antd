@@ -34,13 +34,11 @@ export default class Page extends React.Component {
     };
     return (
       <Layout className="workbench-container">
-        <Sider className="workbench-container-sider">
-          <FileTree />
+        <Sider className="sider">
+          <FileTree data={this.props.location.params}/>
         </Sider>
-        <Content>
+        <Content className="content">
           <MonacoEditor
-            height="450"
-            width="500"
             language="javascript"
             value={code}
             options={options}
