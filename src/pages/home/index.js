@@ -4,11 +4,15 @@ import { Button, Layout } from 'antd';
 import './index.less'
 import TemplatesList from '../../components/TemplatesList';
 import NodeFs from '../../node/fs';
+import { connect } from 'react-redux';
+import store from "../../redux/store";
+import { addTodo } from "../../redux/actions/actions";
+
 const { Sider, Content } = Layout;
 const { dialog } = electron.remote;
 const ipc = electron.ipcRenderer;
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -46,3 +50,17 @@ export default class Home extends React.Component {
   }
 
 } // class Home end
+
+const mapStateToProps = (store) => {
+  return {
+    todos: store.todos
+  }
+}
+
+const mapDispatchToProps =  (addTodo) => {
+  return {
+    actions: addTodo
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home); 
