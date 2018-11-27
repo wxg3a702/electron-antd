@@ -39,7 +39,7 @@ export default class Page extends React.Component {
           <FileTree data={this.props.location.params}/>
         </Sider>
         <Content>
-          <Button onClick={() => { history.goBack() }}>返回</Button>
+          {/* <Button onClick={() => { history.goBack() }}>返回</Button> */}
           {/* <MonacoEditor
             height="450"
             width="500"
