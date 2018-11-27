@@ -3,9 +3,12 @@ import { Button, Layout, Icon } from 'antd';
 import TemplatesList from '../../components/TemplatesList';
 import ScaffoldTab from '../../components/ScaffoldTab';
 import './index.less';
+import { connect } from 'react-redux';
+import * as actions from "../../redux/actions/actions";
+import { bindActionCreators } from 'redux';
 const { Sider, Content } = Layout;
 
-export default class Page extends React.Component {
+class Scaffold extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,3 +39,17 @@ export default class Page extends React.Component {
   }
 
 } // class Page end
+
+const mapStateToProps = (state) => {
+  return {
+    currentProject: state.currentProject
+  }
+}
+
+const mapDispatchToProps =  (dispatch) => {
+  return {
+    actions: {...bindActionCreators(actions, dispatch)}
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scaffold); 

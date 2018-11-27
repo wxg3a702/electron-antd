@@ -68,16 +68,22 @@ export default class EditorTab extends React.Component {
       }
     
       render() {
-        return (
-          <Tabs
-            onChange={this._onChange}
-            activeKey={this.state.activeKey}
-            type="editable-card"
-            onEdit={this._onEdit}
-            className="editoe-tabs"
-          >
-            {this._renderPanes()}
-          </Tabs>
-        );
+        if (this.state.panes && this.state.panes.length !== 0) {
+            return (
+                <Tabs
+                  onChange={this._onChange}
+                  activeKey={this.state.activeKey}
+                  type="editable-card"
+                  onEdit={this._onEdit}
+                  className="editoe-tabs"
+                >
+                  {this._renderPanes()}
+                </Tabs>
+              );
+        } else {
+            return (
+                <div>请打开文件</div>
+            )
+        }
       }
 }

@@ -1,4 +1,8 @@
-import { ADD_TODO } from './actionTypes';
+import { 
+  ADD_TODO,
+  CURRENT_PROJECT
+} from './actionTypes';
+
 
 export const addTodo = (todo) => {
   return {
@@ -6,3 +10,10 @@ export const addTodo = (todo) => {
     todo: todo
   };
 };
+
+export const updateCurrentProject = (currentProject) => {
+  return {
+    type: CURRENT_PROJECT,
+    currentProject
+  }
+}

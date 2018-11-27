@@ -1,10 +1,14 @@
-const path = require('path')
-const { app, BrowserWindow, ipcMain } = require('electron')
-const { port } = require('../config/dev.config')
+const path = require('path');
+const { app, BrowserWindow, ipcMain, Menu, MenuItem } = require('electron');
+const { port } = require('../config/dev.config');
 
-const { NODE_ENV } = process.env
+const menu = new Menu();
+menu.append(new MenuItem({ label: 'Hello' }));
+menu.append(new MenuItem({ label: 'Electron' }));
 
-let mainWindow, winURL
+const { NODE_ENV } = process.env;
+
+let mainWindow, winURL;
 
 if (NODE_ENV === 'development') {
   winURL = `http://localhost:${port}`
@@ -52,15 +56,26 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-})
+});
+
+app.on('browser-window-created', function (event, win) {
+  win.webContents.on('context-menu', function (e, params) {
+    menu.popup(win, params.x, params.y)
+  })
+});
 
 ipcMain.on('test', (event, person) => {
 
   console.log('creating', person);
+});
+
+ipcMain.on('show-context-menu', function (event) {
+  const win = BrowserWindow.fromWebContents(event.sender)
+  menu.popup(win)
 });

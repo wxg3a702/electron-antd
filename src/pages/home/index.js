@@ -5,8 +5,8 @@ import './index.less'
 import TemplatesList from '../../components/TemplatesList';
 import NodeFs from '../../node/fs';
 import { connect } from 'react-redux';
-import store from "../../redux/store";
-import { addTodo } from "../../redux/actions/actions";
+import * as actions from "../../redux/actions/actions";
+import { bindActionCreators } from 'redux';
 
 const { Sider, Content } = Layout;
 const { dialog } = electron.remote;
@@ -30,7 +30,9 @@ class Home extends React.Component {
         // 读取项目，跳转至工作区
         // E:\bosi\electron-antd
         // console.log(JSON.stringify(NodeFs.geFileList(file[0])));
-        this.props.history.push({pathname: './workbench', params: NodeFs.geFileList(file[0])});
+        const currentProject = NodeFs.geFileList(file[0]);
+        this.props.actions.updateCurrentProject(currentProject);
+        this.props.history.push({pathname: './workbench', params: currentProject});
       }
     });
   };
@@ -52,15 +54,16 @@ class Home extends React.Component {
 
 } // class Home end
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state) => {
   return {
-    todos: store.todos
+    todos: state.todos,
+    currentProject: state.currentProject
   }
 }
 
-const mapDispatchToProps =  (addTodo) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    actions: addTodo
+    actions: {...bindActionCreators(actions, dispatch)}
   }
 };
 

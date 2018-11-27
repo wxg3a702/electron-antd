@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Layout } from 'antd';
 import './index.less';
 import FileTree from '../../components/FileTree';
-import MonacoEditor from '../../components/MonacoEditor';
 import EditorTabs from '../../components/EditorTab';
+import { connect } from 'react-redux';
+import * as actions from "../../redux/actions/actions";
+import { bindActionCreators } from 'redux';
 const { Sider, Content } = Layout;
 
-export default class Page extends React.Component {
+class WorkBench extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +38,7 @@ export default class Page extends React.Component {
     return (
       <Layout className="workbench-container">
         <Sider className="workbench-container-sider">
-          <FileTree data={this.props.location.params}/>
+          <FileTree data={this.props.currentProject}/>
         </Sider>
         <Content>
           {/* <Button onClick={() => { history.goBack() }}>返回</Button> */}
@@ -56,3 +58,18 @@ export default class Page extends React.Component {
   }
 
 } // class Page end
+
+
+const mapStateToProps = (state) => {
+  return {
+    currentProject: state.currentProject
+  }
+}
+
+const mapDispatchToProps =  (dispatch) => {
+  return {
+    actions: {...bindActionCreators(actions, dispatch)}
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkBench); 
