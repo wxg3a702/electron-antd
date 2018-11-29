@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 
 const { Sider, Content } = Layout;
 const { dialog } = electron.remote;
-const ipc = electron.ipcRenderer;
+const { ipcRenderer } = electron;
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,7 +22,6 @@ class Home extends React.Component {
   };
 
   openProject = () => {
-    ipc.send('test', 'hahaha');
     dialog.showOpenDialog({
       properties: ['openFile', 'openDirectory'],
     }, (file) => {

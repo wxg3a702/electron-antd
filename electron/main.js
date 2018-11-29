@@ -3,8 +3,8 @@ const { app, BrowserWindow, ipcMain, Menu, MenuItem } = require('electron');
 const { port } = require('../config/dev.config');
 
 const menu = new Menu();
-menu.append(new MenuItem({ label: 'Hello' }));
-menu.append(new MenuItem({ label: 'Electron' }));
+menu.append(new MenuItem({ label: '新建页面' }));
+menu.append(new MenuItem({ label: '删除' }));
 
 const { NODE_ENV } = process.env;
 
@@ -68,11 +68,6 @@ app.on('browser-window-created', function (event, win) {
   win.webContents.on('context-menu', function (e, params) {
     menu.popup(win, params.x, params.y)
   })
-});
-
-ipcMain.on('test', (event, person) => {
-
-  console.log('creating', person);
 });
 
 ipcMain.on('show-context-menu', function (event) {

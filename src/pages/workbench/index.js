@@ -38,7 +38,7 @@ class WorkBench extends React.Component {
     return (
       <Layout className="workbench-container">
         <Sider className="workbench-container-sider">
-          <FileTree data={this.props.currentProject}/>
+          <FileTree data={this.props.currentProject} {...this.props}/>
         </Sider>
         <Content>
           {/* <Button onClick={() => { history.goBack() }}>返回</Button> */}
@@ -51,7 +51,7 @@ class WorkBench extends React.Component {
             onChange={this.onChange}
             editorDidMount={this.editorDidMount}
           /> */}
-          <EditorTabs />
+          <EditorTabs {...this.props}/>
         </Content>
       </Layout>
     );
@@ -62,7 +62,9 @@ class WorkBench extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentProject: state.currentProject
+    currentProject: state.currentProject,
+    currentEditorTabs: state.currentEditorTabs,
+    activeEditorTab: state.activeEditorTab
   }
 }
 

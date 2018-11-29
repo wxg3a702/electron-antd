@@ -1,6 +1,8 @@
 import { 
   ADD_TODO,
-  CURRENT_PROJECT
+  CURRENT_PROJECT,
+  CURRENT_EDITOR_TABS,
+  REMOVE_CURRENT_EDITOR_TAB
 } from './actionTypes';
 
 
@@ -15,5 +17,19 @@ export const updateCurrentProject = (currentProject) => {
   return {
     type: CURRENT_PROJECT,
     currentProject
+  }
+}
+
+export const updateCurrentEditorTabs = (currentEditorTab) => {
+  return {
+    type: CURRENT_EDITOR_TABS,
+    currentEditorTab
+  }
+}
+
+export const removeCurrentEditorTab = (editorTab) => {
+  return {
+    type: REMOVE_CURRENT_EDITOR_TAB,
+    editorTab
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
+import electron from 'electron'; 
 import { Tree, Icon  } from 'antd';
 import TreeTest from './treeTest.json';
 import './index.less';
-import { format } from 'path';
-const ipc = require('electron').ipcRenderer
+const { ipcRenderer } = electron;
 const DirectoryTree = Tree.DirectoryTree;
 const TreeNode = Tree.TreeNode;
 
@@ -15,6 +15,9 @@ export default class FileTree extends React.Component {
     _onSelect = (selectedkeys, event) => {
         console.log(event);
         // TODO: tab页面数据交互
+        if (event.node.isLeaf()) {
+            this.props.actions.updateCurrentEditorTabs(event.node.props.nodeData);
+        }
     }
 
     _onExpand = (selectedkeys, event) => {
@@ -24,7 +27,7 @@ export default class FileTree extends React.Component {
     _onRightClick = (event) => { 
         console.log(event);
         // TODO： 调用electron右击菜单
-        ipc.send('show-context-menu');
+        ipcRenderer.send('show-context-menu');
     }
 
     _renderTree = (data) => {
