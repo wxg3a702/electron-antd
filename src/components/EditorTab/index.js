@@ -1,9 +1,11 @@
 import React from 'react';
 import './index.less';
 import {Tabs} from 'antd';
-const TabPane = Tabs.TabPane;
-
 import MonacoEditor from '../../components/MonacoEditor';
+import NodeFs from '../../node/fs';
+import * as FileType from '../../node/fileType';
+ 
+const TabPane = Tabs.TabPane;
 
 export default class EditorTab extends React.Component {
     constructor(props) {
@@ -19,7 +21,7 @@ export default class EditorTab extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
       this.setState({
-        activeKey: nextProps.activeEditorTab.name
+        activeKey: nextProps.activeEditorTab && nextProps.activeEditorTab.name || ''
       })
     }
 
@@ -32,22 +34,14 @@ export default class EditorTab extends React.Component {
     }
 
     remove = (targetKey) => {
-      let activeKey = this.state.activeKey;
-      let lastIndex;
-      this.state.panes.forEach((pane, i) => {
-        if (pane.name === targetKey) {
-          lastIndex = i - 1;
-        }
-      });
-      const panes = this.state.panes.filter(pane => pane.name !== targetKey);
-      if (lastIndex >= 0 && activeKey === targetKey) {
-        activeKey = panes[lastIndex].name;
-      }
       this.props.actions.removeCurrentEditorTab(targetKey);
     }
 
     _renderPanes = () => {
-      return this.props.currentEditorTabs.map(pane => 
+      return this.props.currentEditorTabs.map(pane => {
+        const code = NodeFs.readFileSync(pane.value);
+        const language = FileType.getFileExtname(pane.value);
+        return (
           <TabPane 
               tab={pane.name} 
               key={pane.name}
@@ -55,22 +49,24 @@ export default class EditorTab extends React.Component {
               <MonacoEditor
                   height="450"
                   width="500"
-                  language="javascript"
-                  value={pane.name}
+                  language={language}
+                  value={code}
               />
           </TabPane>
-      )
+        );
+      })
     }
   
     render() {
       if (this.props.currentEditorTabs && this.props.currentEditorTabs.length !== 0) {
           return (
               <Tabs
+                className="editor-tabs"
                 onChange={this._onChange}
                 activeKey={this.state.activeKey}
                 type="editable-card"
                 onEdit={this._onEdit}
-                className="editoe-tabs"
+                hideAdd
               >
                 {this._renderPanes()}
               </Tabs>

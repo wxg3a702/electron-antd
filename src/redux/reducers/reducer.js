@@ -27,13 +27,29 @@ const updateCurrentEditorTabs = (state, payload) => {
       isExists = true;
     } 
   });
-  return { ...state, 
+  return { 
+    ...state, 
     activeEditorTab: payload.currentEditorTab,
     currentEditorTabs: isExists ? state.currentEditorTabs : state.currentEditorTabs.concat(payload.currentEditorTab)}
 }
 
 const removeCurrentEditorTab = (state, payload) => {
-  return { ...state,  currentEditorTabs: state.currentEditorTabs.filter(tab => tab.name !== payload.editorTab)}
+  let tempIndex = 0;
+  const tempTabs = state.currentEditorTabs.filter((tab, index) => {
+    if (tab.name !== payload.editorTab) {
+      return tab;
+    } else {
+      if (index !== 0) {
+        tempIndex = index - 1;
+      }
+    }
+  })
+  const tempCurrentTap = tempTabs[tempIndex];
+  return { 
+    ...state,  
+    activeEditorTab: tempCurrentTap,
+    currentEditorTabs: tempTabs
+  }
 }
 
 const todoReducer = (state = initialState, action) => {

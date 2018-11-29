@@ -13,7 +13,6 @@ export default class FileTree extends React.Component {
     }
 
     _onSelect = (selectedkeys, event) => {
-        console.log(event);
         // TODO: tab页面数据交互
         if (event.node.isLeaf()) {
             this.props.actions.updateCurrentEditorTabs(event.node.props.nodeData);
@@ -21,11 +20,9 @@ export default class FileTree extends React.Component {
     }
 
     _onExpand = (selectedkeys, event) => {
-        console.log(event);
     }
 
     _onRightClick = (event) => { 
-        console.log(event);
         // TODO： 调用electron右击菜单
         ipcRenderer.send('show-context-menu');
     }
