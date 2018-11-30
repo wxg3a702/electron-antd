@@ -3,11 +3,12 @@ import { Layout } from 'antd';
 import './index.less';
 import FileTree from '../../components/FileTree';
 import EditorTabs from '../../components/EditorTab';
+import WorkBenchHeader from '../../components/WorkBenchHeader';
 import { connect } from 'react-redux';
 import * as actions from "../../redux/actions/actions";
 import { bindActionCreators } from 'redux';
 import * as LocalStorage from '../../utils/localStorage';
-const { Sider, Content } = Layout;
+const { Sider, Content, Header } = Layout;
 
 class WorkBench extends React.Component {
   constructor(props) {
@@ -19,18 +20,26 @@ class WorkBench extends React.Component {
     if (JSON.stringify(currentProject) === '{}') {
       currentProject = JSON.parse(LocalStorage.getLocalStorageItem('currentProject'));
     }
+    if (currentProject === null) {
+      location.href = '#/';
+    }
     return (
       <Layout className="workbench-container">
-        <Sider className="workbench-container-sider">
-          <FileTree 
-            data={currentProject} 
-            {...this.props}
-          />
-        </Sider>
-        <Content>
-          <EditorTabs {...this.props}/>
-        </Content>
-      </Layout>
+          <div className="workbench-container-header">
+            <WorkBenchHeader {...this.props}/>
+          </div>
+          <div className="workbench-container-content">
+            <Sider className="workbench-container-sider">
+              <FileTree 
+                data={currentProject} 
+                {...this.props}
+              />
+            </Sider>
+            <Content>
+              <EditorTabs {...this.props}/>
+            </Content>
+          </div>
+        </Layout>
     );
   }
 
@@ -40,6 +49,7 @@ class WorkBench extends React.Component {
 const mapStateToProps = (state) => {
   return {
     currentProject: state.currentProject,
+    currentProjectPath: state.currentProjectPath,
     currentEditorTabs: state.currentEditorTabs,
     activeEditorTab: state.activeEditorTab
   }

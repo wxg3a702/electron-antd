@@ -3,6 +3,7 @@ import electron from 'electron';
 import { Modal, Form, Input, Button, Icon } from 'antd';
 import './templatesItem.less';
 import NodeFs from '../../node/fs';
+import * as LocalStorage from '../../utils/localStorage';
 const { dialog, app } = electron.remote;
 const FormItem = Form.Item;
 
@@ -97,9 +98,11 @@ export default class TemplatesItem extends React.Component {
                 const targetDir = `${values.projectPath}\\${values.projectName}`;
                 if (!NodeFs.fileExists(targetDir)) {
                     NodeFs.copyDir('src/templates/create-react-app', targetDir);
-                    NodeFs.getFilesByDirSync(targetDir);
-                    // this.props.history.push('./workbench');
-                    this.props.history.push({pathname: './workbench', params: NodeFs.geFileList(targetDir)});
+                    const currentProject = NodeFs.geFileList(targetDir);
+                    LocalStorage.setLocalStorageItem('currentProject', JSON.stringify(currentProject));
+                    LocalStorage.setLocalStorageItem('currentProjectPath', targetDir);
+                    
+                    this.props.history.push({pathname: './workbench', params: currentProject});
                 } else {
                     dialog.showErrorBox('创建项目失败！', '该项目已经存在了');
                 }

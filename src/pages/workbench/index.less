@@ -1,10 +1,28 @@
 @import '../../styles/index.less';
 
 .workbench-container {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        background-color: #fff;
+    }
+
+    &-content {
+        display: flex;
+    }
 
     &-sider {
         background-color: @color_background;
         color: @color_text;
     }
+}
+
+.ant-layout.ant-layout-has-sider{
+    display: flex;
+    flex-direction: column;
 }

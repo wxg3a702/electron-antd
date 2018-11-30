@@ -47,7 +47,7 @@ export default class EditorTab extends React.Component {
               key={pane.name}
               >
               <MonacoEditor
-                  height="450"
+                  height="400"
                   width="500"
                   language={language}
                   value={code}
