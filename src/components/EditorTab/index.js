@@ -37,10 +37,22 @@ export default class EditorTab extends React.Component {
       this.props.actions.removeCurrentEditorTab(targetKey);
     }
 
+    _onCodeChange(newValue, e) {
+      console.log('onChange', newValue, e);
+    }
+
+    _editorDidMount(editor, monaco) {
+      console.log('editorDidMount', editor);
+      editor.focus();
+    }
+
     _renderPanes = () => {
       return this.props.currentEditorTabs.map(pane => {
         const code = NodeFs.readFileSync(pane.value);
         const language = FileType.getFileExtname(pane.value);
+        const options = {
+          selectOnLineNumbers: true
+        };
         return (
           <TabPane 
               tab={pane.name} 
@@ -51,6 +63,9 @@ export default class EditorTab extends React.Component {
                   width="500"
                   language={language}
                   value={code}
+                  options={options}
+                  onChange={this._onCodeChange}
+                  editorDidMount={this._editorDidMount}
               />
           </TabPane>
         );

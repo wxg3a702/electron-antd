@@ -3,7 +3,8 @@ import electron from 'electron';
 import { Tree, Icon  } from 'antd';
 import TreeTest from './treeTest.json';
 import './index.less';
-const { ipcRenderer } = electron;
+const { ipcRenderer, remote } = electron;
+const { Menu, MenuItem } = remote;
 const DirectoryTree = Tree.DirectoryTree;
 const TreeNode = Tree.TreeNode;
 
@@ -22,9 +23,17 @@ export default class FileTree extends React.Component {
     _onExpand = (selectedkeys, event) => {
     }
 
-    _onRightClick = (event) => { 
+    _onDeleteFile = (menuItem, browserWindow, event) => {
+    }
+
+    _onRightClick = (nodeEvent) => { 
         // TODO： 调用electron右击菜单
-        ipcRenderer.send('show-context-menu');
+        const that = this;
+        const menu = new Menu()
+        menu.append(new MenuItem({label: '新建文件', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        menu.append(new MenuItem({label: '新建文件夹', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        menu.append(new MenuItem({label: '删除', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        menu.popup({window: remote.getCurrentWindow()})
     }
 
     _renderTree = (data) => {
