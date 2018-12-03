@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import FileTree from '../components/FileTree';
 
 /**
  * 判断目录或文件是否存在
