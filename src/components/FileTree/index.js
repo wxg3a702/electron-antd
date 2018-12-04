@@ -1,7 +1,6 @@
 import React from 'react';
 import electron from 'electron'; 
 import { Tree, Icon  } from 'antd';
-import TreeTest from './treeTest.json';
 import './index.less';
 const { ipcRenderer, remote } = electron;
 const { Menu, MenuItem } = remote;
