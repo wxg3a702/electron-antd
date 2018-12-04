@@ -51,7 +51,8 @@ export default class EditorTab extends React.Component {
         const code = NodeFs.readFileSync(pane.value);
         const language = FileType.getFileExtname(pane.value);
         const options = {
-          selectOnLineNumbers: true
+          selectOnLineNumbers: true,
+          automaticLayout: true,
         };
         return (
           <TabPane 
@@ -59,8 +60,8 @@ export default class EditorTab extends React.Component {
               key={pane.name}
               >
               <MonacoEditor
-                  height="400"
-                  width="500"
+                  height="85vh"
+                  width="80vw"
                   language={language}
                   value={code}
                   options={options}
