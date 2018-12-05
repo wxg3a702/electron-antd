@@ -4,34 +4,8 @@
     display: inline;
 
     &-tabpane {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        width: 100px;
-        height: 24px;
-        padding: 5px;
-        cursor: pointer;
-
-        &-icon {
-            font-size: 22px;
-            position: absolute;
-            right: 5px;
-            color: @color_gray;
-            transform: rotate(45deg);
-
-            &:hover {
-                color: @color_black;
-            }
-        }
-
-        &:hover {
-            color: @color_link;
-        }
-    }
-
-    &-selected {
-        color: @color_link
+        width: calc(100vw - 248px);
+        height: calc(100vh - 150px);
+        margin: auto;
     }
 }

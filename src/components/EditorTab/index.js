@@ -59,15 +59,15 @@ export default class EditorTab extends React.Component {
               tab={pane.name} 
               key={pane.name}
               >
-              <MonacoEditor
-                  height="85vh"
-                  width="80vw"
-                  language={language}
-                  value={code}
-                  options={options}
-                  onChange={this._onCodeChange}
-                  editorDidMount={this._editorDidMount}
-              />
+              <div className="editor-tabs-tabpane">
+                <MonacoEditor
+                    language={language}
+                    value={code}
+                    options={options}
+                    onChange={this._onCodeChange}
+                    editorDidMount={this._editorDidMount}
+                />
+              </div>
           </TabPane>
         );
       })
