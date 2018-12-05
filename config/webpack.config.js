@@ -6,6 +6,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
 const { NODE_ENV } = process.env
@@ -99,6 +100,7 @@ const webpackConfig = {
       $app: 'src/utils/app.js',
       $config: 'config/app.config.js',
     }),
+    new MonacoWebpackPlugin(),
   ],
 }
 
