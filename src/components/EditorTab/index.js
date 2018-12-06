@@ -38,11 +38,11 @@ export default class EditorTab extends React.Component {
     }
 
     _onCodeChange(newValue, e) {
-      console.log('onChange', newValue, e);
+      // console.log('onChange', newValue, e);
     }
 
     _editorDidMount(editor, monaco) {
-      console.log('editorDidMount', editor);
+      // console.log('editorDidMount', editor);
       editor.focus();
     }
 
@@ -89,7 +89,7 @@ export default class EditorTab extends React.Component {
             );
       } else {
           return (
-              <div>请打开文件</div>
+              <div className="empty-space">请打开文件</div>
           )
       }
     }     
