@@ -63,8 +63,7 @@ function writeFilePromise(file, dataBuffer) {
  */
 function readFileSync(filePath) {
   try {
-    const data = fs.readFileSync(filePath).toString();
-    return data;
+    return fs.readFileSync(filePath).toString();
   } catch (err) {
     throw new Error(`文件读取失败:${err}filePath: ${filePath}`);
   }
@@ -82,7 +81,7 @@ function readFilePromise(filePath) {
         reject(err);
       } else {
         try {
-          resolve(data);
+          resolve(data.toString());
         } catch (e) {
           reject(e);
         }

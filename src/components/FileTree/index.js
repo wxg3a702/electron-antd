@@ -1,6 +1,7 @@
 import React from 'react';
 import electron from 'electron'; 
 import { Tree, Icon  } from 'antd';
+import NodeFs from '../../node/fs';
 import './index.less';
 const { ipcRenderer, remote } = electron;
 const { Menu, MenuItem } = remote;
@@ -13,7 +14,7 @@ export default class FileTree extends React.Component {
     }
 
     _onSelect = (selectedkeys, event) => {
-        // TODO: tab页面数据交互
+        // tab数据交互已经实现，使用Redux解决
         if (event.node.isLeaf()) {
             this.props.actions.updateCurrentEditorTabs(event.node.props.nodeData);
         }
@@ -22,16 +23,24 @@ export default class FileTree extends React.Component {
     _onExpand = (selectedkeys, event) => {
     }
 
-    _onDeleteFile = (menuItem, browserWindow, event) => {
+    _onDeleteFile = (menuItem, browserWindow, event, nodeEvent) => {
+        console.log(menuItem);
+        console.log(browserWindow);
+        console.log(event);
+        console.log(nodeEvent);
+        // TODO: 删除文件、更新目录树、更新EditorTabs
+        NodeFs.readFilePromise(nodeEvent.node.props.nodeData.value).then(data => {
+            console.log(data);
+        })
     }
 
     _onRightClick = (nodeEvent) => { 
         // TODO： 调用electron右击菜单
         const that = this;
         const menu = new Menu()
-        menu.append(new MenuItem({label: '新建文件', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
-        menu.append(new MenuItem({label: '新建文件夹', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
-        menu.append(new MenuItem({label: '删除', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        // menu.append(new MenuItem({label: '新建文件', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        // menu.append(new MenuItem({label: '新建文件夹', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event) }}));
+        menu.append(new MenuItem({label: '删除', click(menuItem, browserWindow, event){ that._onDeleteFile(menuItem, browserWindow, event, nodeEvent) }}));
         menu.popup({window: remote.getCurrentWindow()})
     }
 
